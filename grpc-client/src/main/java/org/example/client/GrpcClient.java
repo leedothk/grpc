@@ -29,19 +29,19 @@ public class GrpcClient {
             @Override
             public void onNext(SampleResponse value) {
                 //log.info("GrpcClient#sampleCall - {}", value);
-            	System.out.println("11111111111111");
+            	System.out.println("GrpcClient#sampleCall : " + value);
             }
  
             @Override
             public void onError(Throwable t) {
                 //log.error("GrpcClient#sampleCall - onError");
-            	System.out.println("22222222222222222222");
+            	System.out.println("GrpcClient#sampleCall - onError");
             }
  
             @Override
             public void onCompleted() {
                 //log.info("GrpcClient#sampleCall - onCompleted");
-            	System.out.println("3333333333333333333");
+            	System.out.println("GrpcClient#sampleCall - onCompleted");
             }
         });
         return "string";
