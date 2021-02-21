@@ -1,28 +1,28 @@
 package org.example.service;
 
 import org.springframework.stereotype.Service;
-import com.levi.yoon.proto.SampleRequest;
-import com.levi.yoon.proto.SampleResponse;
-import com.levi.yoon.proto.SampleServiceGrpc;
-import com.levi.yoon.proto.SampleServiceGrpc.SampleServiceImplBase;
+
+import com.example.proto.SampleRequest;
+import com.example.proto.SampleResponse;
+import com.example.proto.SampleServiceGrpc;
 
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
-public class SampleServiceImpl extends SampleServiceGrpc.SampleServiceImplBase {
- 
+public class SampleServiceImpl extends SampleServiceGrpc.SampleServiceImplBase 
+{
     @Override
-    public void sampleCall(SampleRequest request, StreamObserver<SampleResponse> responseObserver) {
-        //log.info("SampleServiceImpl#sampleCall - {}, {}", request.getUserId(), request.getMessage());
-        
-        System.out.println("SampleServiceImpl#sampleCall - " + request.getUserId() + ", " + request.getMessage());
+    public void sampleCall(SampleRequest request, StreamObserver<SampleResponse> responseObserver) 
+    {
+        log.info("SampleServiceImpl#sampleCall - {}, {}", request.getUserId(), request.getMessage());
         
         SampleResponse sampleResponse = SampleResponse.newBuilder()
-                .setMessage("grpc service response")
-                .build();
+        		                                      .setMessage("grpc service response")
+        		                                      .build();
  
         responseObserver.onNext(sampleResponse);
         responseObserver.onCompleted();
     }
 }
-

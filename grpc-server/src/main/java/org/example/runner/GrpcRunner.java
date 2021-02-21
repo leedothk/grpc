@@ -10,37 +10,48 @@ import org.springframework.stereotype.Component;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
-public class GrpcRunner implements ApplicationRunner {
- 
-    private static final int PORT = 3030;
+public class GrpcRunner implements ApplicationRunner
+{
+    private static final int    PORT   = 3030;
     private static final Server SERVER = ServerBuilder.forPort(PORT)
-            .addService(new SampleServiceImpl())
-            .build();
+                                                      .addService(new SampleServiceImpl())
+                                                      .build();
  
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) throws Exception 
+    {
         //SERVER.start();
         //SERVER.awaitTermination();
+    	
     	this.start();
     }
-    
-    private void start() throws IOException, InterruptedException {
+   
+    private void start() throws IOException, InterruptedException 
+    {
         SERVER.start();
-        //log.info("GrpcRunner#start - listen port = {}", PORT);
-        System.out.println("GrpcRunner#start - listen port = " + PORT);
+
+        log.info("GrpcRunner#start - listen port = {}", PORT);
 
         SERVER.awaitTermination();
         
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-        	System.out.println("GrpcRunner#stop - Stopping gRPC server");
-            try {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> 
+        {
+        	log.info("GrpcRunner#stop - Stopping gRPC server");
+            
+        	try 
+        	{
                 SERVER.shutdown().awaitTermination(5, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
+            } 
+        	catch (InterruptedException e) 
+        	{
                 e.printStackTrace();
             }
-            System.out.println("GrpcRunner#stop - gRPC server was stopped");
+            
+            log.info("GrpcRunner#stop - gRPC server was stopped");
         }));
     }
 }
